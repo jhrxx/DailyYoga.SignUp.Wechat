@@ -96,6 +96,31 @@ var staticUrl = 'http://www.dailyyoga.com.cn/',
       });
     };
 
+var audio = document.getElementById('audio'),
+    playBtn = document.getElementById('play_btn');
+
+    audio.addEventListener('play', function() {
+      // alert('playing');
+      playBtn.className = 'playing';
+    }, false);
+
+    audio.addEventListener('pause', function() {
+      // alert('paused');
+      playBtn.className = 'paused';
+    }, false);
+
+    audio.addEventListener('canplay', function() {
+        audio.play();
+
+        playBtn.onclick = function(event) {
+          if(audio.paused){
+            audio.play();
+          } else {
+            audio.pause();
+          }
+        };
+    }, false);
+
 $(function(){
   $('#sign_up_mobile').on('keyup',function(){
     checkMobileNumber($(this).val());
@@ -113,7 +138,32 @@ $(function(){
   });
 
 
-  $('#dowebok').fullpage();
+  $('#dowebok').fullpage({
+    onLeave: function(index, nextIndex, direction) {
+      // alert(index + ' '+nextIndex+' '+direction)
+      if(index === 1 && nextIndex === 2 && audio.currentTime === 0) {
+        // play audio
+        // $(body).
+        // console.log(audio.currentTime)
+
+        // only on android
+        audio.play();
+
+        playBtn.onclick = function(event) {
+          if(audio.paused){
+            audio.play();
+          } else {
+            audio.pause();
+          }
+        };
+
+
+        // setTimeout(function(){
+        //   audio.pause();
+        // },2120)
+      }
+    }
+  });
 });
 
 
